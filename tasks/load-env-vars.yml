@@ -9,10 +9,29 @@
     ar_git_repo_gitignore_entries: ['*.key']
     ar_git_repo_dest: "{{ ar_os_environment_git_dest }}"
 
+- debug:
+    msg: "app env file: {{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
+
 - name: Include app environment var file
   include_vars: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
 
-- set_fact:
+- name: Set base paths
+  set_fact:
+    generated_config_path: "{{ repo_dir }}/{{ environment_name }}/generated"
+    envdir: "{{ repo_dir }}"
+    deployment_phase: "{{ environment_name }}"
+
+- name: Set working path
+  set_fact:
+    phase_base_dir: "{{ envdir }}/{{ deployment_phase }}"
+
+- name: Set generated and varfiles paths
+  set_fact:
+    generated_config_dir: "{{ phase_base_dir }}/generated"
+    varfiles_dir: "{{ phase_base_dir }}/varfiles"
+
+- name: Set app vault path
+  set_fact:
     _ar_git_repo_app_vault: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_vaultfile }}"
 
 - name: Stat the vault

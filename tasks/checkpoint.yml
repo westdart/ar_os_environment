@@ -1,0 +1,13 @@
+---
+- name: "Assert required vars are present"
+  assert:
+    that: ar_os_environment_assertions
+
+- include_role:
+    name: ar_git_repo
+    tasks_from: checkin
+  vars:
+    ar_git_repo_url: "{{ ar_os_environment_git_repo }}"
+    ar_git_repo_ssh_key: "{{ ar_os_environment_git_ssh_key }}"
+    ar_git_repo_ssh_key_pass: "{{ ar_os_environment_git_ssh_key_pass | default('') }}"
+    ar_git_repo_dest: "{{ ar_os_environment_git_dest }}"

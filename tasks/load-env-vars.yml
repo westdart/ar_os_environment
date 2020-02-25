@@ -1,0 +1,36 @@
+---
+- include_role:
+    name: ar_git_repo
+    tasks_from: checkout
+  vars:
+    ar_git_repo_url: "{{ ar_os_environment_git_repo }}"
+    ar_git_repo_ssh_key: "{{ ar_os_environment_git_ssh_key }}"
+    ar_git_repo_ssh_key_pass: "{{ ar_os_environment_git_ssh_key_pass | default('') }}"
+    ar_git_repo_gitignore_entries: ['*.key']
+    ar_git_repo_dest: "{{ ar_os_environment_git_dest }}"
+
+- name: Include app environment var file
+  include_vars: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
+
+- set_fact:
+    _ar_git_repo_app_vault: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_vaultfile }}"
+
+- name: Stat the vault
+  stat:
+    path: "{{ _ar_git_repo_app_vault }}"
+  register: app_vault_result
+
+- name: Include app environment vault file
+  include_vars: "{{ _ar_git_repo_app_vault }}"
+  when: app_vault_result.stat.exists
+
+# Look to remove the following - ties too specifically to the env vars details
+- name: Set the taget app instance names
+  set_fact:
+    app_target_instance_names: "{{ targets | default(app_instances | json_query('[*].name')) }}"
+  when: app_instances is defined
+
+- name: Set the taget app instances
+  set_fact:
+    app_target_instances: "{{ app_instances | select_from_array_of_dicts('name', app_target_instance_names) }}"
+  when: app_instances is defined

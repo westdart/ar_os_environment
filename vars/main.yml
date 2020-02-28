@@ -4,3 +4,4 @@ ar_os_environment_git_ssh_key: null
 ar_os_environment_git_ssh_key_pass: null
 ar_os_environment_name: null
 ar_os_environment_git_comment: ''
+ar_os_environment_git_version: 'master'

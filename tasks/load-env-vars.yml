@@ -8,6 +8,7 @@
     ar_git_repo_ssh_key_pass: "{{ ar_os_environment_git_ssh_key_pass | default('') }}"
     ar_git_repo_gitignore_entries: ['*.key']
     ar_git_repo_dest: "{{ ar_os_environment_git_dest }}"
+    ar_git_repo_version: "{{ ar_os_environment_git_version }}"
 
 - debug:
     msg: "app env file: {{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
@@ -15,19 +16,21 @@
 - name: Include app environment var file
   include_vars: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
 
-- name: Set base paths
+- name: Export 'envdir' and 'deployment_phase' vars
   set_fact:
-    generated_config_path: "{{ repo_dir }}/{{ environment_name }}/generated"
-    envdir: "{{ repo_dir }}"
-    deployment_phase: "{{ environment_name }}"
+    envdir: "{{ ar_os_environment_git_dest }}"
+    deployment_phase: "{{ ar_os_environment_name }}"
 
-- name: Set working path
+- name: Export 'generated_config_path' var
   set_fact:
-    phase_base_dir: "{{ envdir }}/{{ deployment_phase }}"
+    generated_config_path: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/generated"
 
-- name: Set generated and varfiles paths
+- name: Export 'phase_base_dir' var
   set_fact:
-    generated_config_dir: "{{ phase_base_dir }}/generated"
+    phase_base_dir: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}"
+
+- name: Export 'varfiles_dir' var
+  set_fact:
     varfiles_dir: "{{ phase_base_dir }}/varfiles"
 
 - name: Set app vault path

@@ -1,13 +1,12 @@
 ---
 ar_os_environment_assertions: [
-  "ar_os_environment_git_repo         is defined and ar_os_environment_git_repo         is not none",
-  "ar_os_environment_name             is defined and ar_os_environment_name             is not none",
-  "ar_os_environment_git_ssh_key      is defined and ar_os_environment_git_ssh_key      is not none"
+  "ar_os_environment_git_repo    is defined and ar_os_environment_git_repo    is not none",
+  "ar_os_environment_name        is defined and ar_os_environment_name        is not none",
+  "ar_os_environment_git_ssh_key is defined and ar_os_environment_git_ssh_key is not none"
 ]
 
 ar_os_environment_varsdir: 'varfiles'
 ar_os_environment_app_varsfile: 'app-environment.yml'
 ar_os_environment_app_vaultfile: 'app-environment.vault'
-ar_os_environment_git_ssh_key_path: '/tmp/git-checkin.key'
 ar_os_environment_git_dest: "/tmp/{{ ar_os_environment_git_repo.split('/') | last }}"
 ar_os_environment_git_subdir: '.'

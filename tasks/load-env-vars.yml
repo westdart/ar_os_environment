@@ -33,17 +33,27 @@
   set_fact:
     varfiles_dir: "{{ phase_base_dir }}/varfiles"
 
-- name: Set app vault path
+- name: Set the Certificate Authority
   set_fact:
-    _ar_git_repo_app_vault: "{{ ar_os_environment_git_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_vaultfile }}"
+    ca_name: "{{ signing_authority | default('ca1') }}"
+
+- name: Set certificate paths
+  set_fact:
+    ca_base_path: "{{ ar_tls_ca_git_repo_path }}/{{ ca_name }}"
+    local_cert_path: "{{ generated_config_path }}/certs"
+    local_key_path: "{{ lookup('env','HOME') }}/keys/local"
+
+- name: Set path variables
+  set_fact:
+    app_vault_file_name: "{{ app_secrets_file | default(varfiles_dir + '/app-environment.vault') }}"
 
 - name: Stat the vault
   stat:
-    path: "{{ _ar_git_repo_app_vault }}"
+    path: "{{ app_vault_file_name }}"
   register: app_vault_result
 
 - name: Include app environment vault file
-  include_vars: "{{ _ar_git_repo_app_vault }}"
+  include_vars: "{{ app_vault_file_name }}"
   when: app_vault_result.stat.exists
 
 # Look to remove the following - ties too specifically to the env vars details

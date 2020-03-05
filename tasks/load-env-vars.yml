@@ -1,4 +1,8 @@
 ---
+- name: "Assertions: ar_os_environment (load-env-vars)"
+  assert:
+    that: "{{ ar_os_environment_assertions }}"
+
 - include_role:
     name: ar_git_repo
     tasks_from: checkout

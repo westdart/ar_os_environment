@@ -1,7 +1,7 @@
 ---
-- name: "Assert required vars are present"
+- name: "Assertions: ar_os_environment (checkpoint)"
   assert:
-    that: ar_os_environment_assertions
+    that: "{{ ar_os_environment_assertions }}"
 
 - include_role:
     name: ar_git_repo

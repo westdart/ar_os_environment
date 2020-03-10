@@ -5,10 +5,9 @@
 
 - include_role:
     name: ar_git_repo
-    tasks_from: checkin
+    tasks_from: update
   vars:
     ar_git_repo_url: "{{ ar_os_environment_git_repo }}"
     ar_git_repo_ssh_key: "{{ ar_os_environment_git_ssh_key }}"
     ar_git_repo_ssh_key_pass: "{{ ar_os_environment_git_ssh_key_pass | default('') }}"
-    ar_git_repo_dest: "{{ ar_os_environment_git_dest }}"
     ar_git_repo_commit_comment: "{{ ar_os_environment_git_comment | default('') }}"

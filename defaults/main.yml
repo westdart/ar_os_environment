@@ -13,5 +13,4 @@ ar_os_environment_assertions:
 ar_os_environment_varsdir: 'varfiles'
 ar_os_environment_app_varsfile: 'app-environment.yml'
 ar_os_environment_app_vaultfile: 'app-environment.vault'
-ar_os_environment_git_dest: "/tmp/{{ ar_os_environment_git_repo.split('/') | last }}"
 ar_os_environment_git_subdir: '.'

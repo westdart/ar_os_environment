@@ -16,24 +16,27 @@
 - set_fact:
     _ar_os_environment_git_repo_dest: "{{ _ar_git_repo_paths[ar_os_environment_git_repo] }}"
 
+- name: Export 'envdir' var
+  set_fact:
+    envdir: "{{ _ar_os_environment_git_repo_dest }}/{{ ar_os_environment_name }}"
+
 - debug:
-    msg: "app env file: {{ _ar_os_environment_git_repo_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
+    msg: "app env file: {{ envdir }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
 
 - name: Include app environment var file
-  include_vars: "{{ _ar_os_environment_git_repo_dest }}/{{ ar_os_environment_name }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
+  include_vars: "{{ envdir }}/{{ ar_os_environment_varsdir }}/{{ ar_os_environment_app_varsfile }}"
 
-- name: Export 'envdir' and 'deployment_phase' vars
+- name: Export 'deployment_phase' var
   set_fact:
-    envdir: "{{ _ar_os_environment_git_repo_dest }}"
     deployment_phase: "{{ ar_os_environment_name }}"
 
 - name: Export 'generated_config_path' var
   set_fact:
-    generated_config_path: "{{ _ar_os_environment_git_repo_dest }}/{{ ar_os_environment_name }}/generated"
+    generated_config_path: "{{ envdir }}/generated"
 
 - name: Export 'phase_base_dir' var
   set_fact:
-    phase_base_dir: "{{ _ar_os_environment_git_repo_dest }}/{{ ar_os_environment_name }}"
+    phase_base_dir: "{{ envdir }}"
 
 - name: Export 'varfiles_dir' var
   set_fact:
@@ -46,7 +49,7 @@
 
 - name: Set path variables
   set_fact:
-    app_vault_file_name: "{{ app_secrets_file | default(varfiles_dir + '/app-environment.vault') }}"
+    app_vault_file_name: "{{ app_secrets_file | default(varfiles_dir + '/' + ar_os_environment_app_vaultfile) }}"
 
 - name: Stat the vault
   stat:

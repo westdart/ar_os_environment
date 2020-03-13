@@ -12,9 +12,15 @@
     ar_git_repo_ssh_key_pass: "{{ ar_os_environment_git_ssh_key_pass | default('') }}"
     ar_git_repo_gitignore_entries: ['*.key']
     ar_git_repo_version: "{{ ar_os_environment_git_version }}"
+  when: ar_os_environment_git_repo | is_git_url
 
 - set_fact:
     _ar_os_environment_git_repo_dest: "{{ _ar_git_repo_paths[ar_os_environment_git_repo] }}"
+  when: ar_os_environment_git_repo | is_git_url
+
+- set_fact:
+    _ar_os_environment_git_repo_dest: "{{ ar_os_environment_git_repo }}"
+  when: ar_os_environment_git_repo | is_not_git_url
 
 - name: Export 'envdir' var
   set_fact:

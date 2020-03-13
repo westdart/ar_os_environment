@@ -6,9 +6,9 @@ ar_os_environment_assertions:
   - "ar_os_environment_name is defined"
   - "ar_os_environment_name is not none"
   - "ar_os_environment_name | length"
-  - "ar_os_environment_git_ssh_key is defined"
-  - "ar_os_environment_git_ssh_key is not none"
-  - "ar_os_environment_git_ssh_key | length"
+  - "ar_os_environment_git_repo | is_not_git_url or ar_os_environment_git_ssh_key is defined"
+  - "ar_os_environment_git_repo | is_not_git_url or ar_os_environment_git_ssh_key is not none"
+  - "ar_os_environment_git_repo | is_not_git_url or ar_os_environment_git_ssh_key | length"
 
 ar_os_environment_varsdir: 'varfiles'
 ar_os_environment_app_varsfile: 'app-environment.yml'

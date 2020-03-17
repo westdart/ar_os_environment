@@ -32,6 +32,10 @@ The following details:
 | ar_os_environment_app_vaultfile | Name of the vault file containing environment secrets                            | 'app-environment.vault'                                                                           |
 | ar_os_environment_git_subdir    | Name of the git repository sub directory that the automation can make changes to | '.'                                                                                               |
 
+### Secrets
+The following variables should be provided through an encrypted source:
+- ar_os_environment_git_ssh_key
+- ar_os_environment_git_ssh_key_pass
 
 ### External variables
 The following external variables are defined for use outside of this 
